@@ -1,0 +1,15 @@
+{
+	"keys": {
+		"default": "~/.ssh/key.priv"
+	},
+	"connections": {
+		"srv1": {
+			"default": [ "10.25.25.55", 444 ],
+			"direct": [ "8.8.8.8", 22 ]
+		},
+		"srv2": {
+			"default": [ "192.168.1.44", 666 ],
+			"direct": [ "8.8.4.4", 22 ]
+		},
+	}
+}
