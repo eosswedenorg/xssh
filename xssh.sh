@@ -86,7 +86,7 @@ connect() {
 	if [ $VERBOSE = true ]; then
 		echo "Command: ssh $opts"
 	fi
-	#ssh $opts
+	ssh $opts
 }
 
 # -------------------------
