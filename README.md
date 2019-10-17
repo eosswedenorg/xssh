@@ -9,13 +9,24 @@ as possible to connect to a ssh box.
 As much information as possible should be defined once in
 the config file.
 
-## Install
+## Install/Uninstall
+
+### From source
 
 Install by running `sudo make install` or just `sudo make`.
 
-To copy a example config file the command `make init` will do just that.
+To copy a example config file, execute `xssh init`.
 
 To uninstall simply run `sudo make uninstall`.
+
+### From .deb (unbuntu)
+
+On ubuntu you can install the program from a package (.deb) file:
+
+```
+$ wget https://github.com/eosswedenorg/xssh/releases/download/v0.1.0/xssh_0.1.0-1_all.deb
+$ sudo dpkg -i xssh_0.1.0-1_all.deb
+```
 
 ## Config file format.
 
