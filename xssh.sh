@@ -6,9 +6,12 @@ KEY="default"
 CONNECTION="default"
 CONFIG_FILE="${HOME}/.ssh/xssh.json"
 VERBOSE=false
+COMMAND=
+NODE=
 
 parse_args() {
 
+	# Parse general options.
 	while getopts ":k:c:vh" arg; do
 		case "${arg}" in
 		k)	KEY=${OPTARG};;
@@ -16,6 +19,9 @@ parse_args() {
 		v)	VERBOSE=true;;
 		h)	usage
 			help
+			exit 1
+			;;
+		\?) echo "Invalid option: '$OPTARG'"
 			exit 1
 			;;
 		esac
@@ -27,10 +33,31 @@ parse_args() {
 		exit 1
 	fi
 
-	NODE="$1"
+	# Parse command
+
+	COMMAND=$1
+	shift 1
+
+	case "${COMMAND}" in
+	connect)
+		if [ $# -lt 1 ]; then
+			err "Missing <node>"
+			usage
+			exit 1
+		fi
+		NODE=$1
+		;;
+	list) ;;
+	*)
+		# Default to connect.
+	 	NODE=$COMMAND
+		COMMAND=connect
+		;;
+	esac
 }
 
 print_vars() {
+	echo "Command: ${COMMAND}"
 	echo "Node: ${NODE}"
 	echo "Connection: ${CONNECTION}"
 	echo "Key: ${KEY}"
@@ -38,7 +65,7 @@ print_vars() {
 
 usage() {
 	local SCRIPT=$(basename $0)
-	echo "usage: $SCRIPT [ <options> ] <node>"
+	echo "usage: $SCRIPT [-vh] [-c name] [-k name] <command>"
 	echo " \`$SCRIPT -h\` for more detailed output."
 }
 
@@ -48,6 +75,11 @@ help() {
 	echo " -h		Show this help text"
 	echo " -c		Name of the connection to use (defined for each node in config file)"
 	echo " -k		Name of the SSH Key to use (defined in config file)"
+
+	echo -e "\nCommands:"
+	echo " <node>		Shorthand for \`connect <node>\`"
+	echo " connect	Connect to a node using ssh"
+	echo " list		List nodes"
 }
 
 err() {
@@ -55,7 +87,23 @@ err() {
 	exit 1
 }
 
-connect() {
+# --------------------------
+#  Commands
+# --------------------------
+
+cmd_list() {
+
+	for k in $(jq -M -r ".connections | keys[]" "${CONFIG_FILE}" | sort); do
+
+		local connections=$(jq -M -r ".connections.$k | keys[]" "${CONFIG_FILE}" \
+			| tr '\n' "," | sed -E 's/,$//g' | sed 's/,/, /g')
+
+		echo -e " - $k\t($connections)"
+
+	done
+}
+
+cmd_connect() {
 
 	# Hack for jq.
 	# Could not get it to return non zero status code on error.
@@ -99,4 +147,4 @@ if [ $VERBOSE = true ]; then
 	print_vars
 fi
 
-connect
+cmd_${COMMAND}
