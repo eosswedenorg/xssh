@@ -5,6 +5,7 @@
 KEY="default"
 CONNECTION="default"
 CONFIG_FILE="${HOME}/.ssh/xssh.json"
+DEFAULT_CONFIG="./config.json"
 VERBOSE=false
 COMMAND=
 NODE=
@@ -39,6 +40,7 @@ parse_args() {
 	shift 1
 
 	case "${COMMAND}" in
+	init) ;;
 	connect)
 		if [ $# -lt 1 ]; then
 			err "Missing <node>"
@@ -78,6 +80,7 @@ help() {
 
 	echo -e "\nCommands:"
 	echo " <node>		Shorthand for \`connect <node>\`"
+	echo " init		Initialize config."
 	echo " connect	Connect to a node using ssh"
 	echo " list		List nodes"
 }
@@ -90,6 +93,10 @@ err() {
 # --------------------------
 #  Commands
 # --------------------------
+
+cmd_init() {
+	cp -i $DEFAULT_CONFIG $CONFIG_FILE
+}
 
 cmd_list() {
 
