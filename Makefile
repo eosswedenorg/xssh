@@ -23,4 +23,12 @@ xssh.build.sh: xssh.sh
 	cat $^ \
 		| sed -E "s#^(DEFAULT_CONFIG=)(.*)#\1\"$(SHAREDIR)/config.json\"#" > $@
 
+deb: xssh.build.sh
+	export SCRIPT_NAME=$^ \
+	&& export PACKAGE_NAME=$(NAME) \
+	&& export PACKAGE_VERSION="0.1.0" \
+	&& export PACKAGE_PREFIX=$(PREFIX:/%=%) \
+	&& export PACKAGE_SHAREDIR=$(SHAREDIR:/%=%) \
+	&& scripts/build_deb.sh
+
 .PHONY: install install_bin install_share uninstall xssh.build.sh
