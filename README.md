@@ -24,8 +24,8 @@ To uninstall simply run `sudo make uninstall`.
 On ubuntu you can install the program from a package (.deb) file:
 
 ```bash
-$ wget https://github.com/eosswedenorg/xssh/releases/download/v0.1.0/xssh_0.1.0-1_all.deb
-$ sudo dpkg -i xssh_0.1.0-1_all.deb
+$ wget https://github.com/eosswedenorg/xssh/releases/download/v0.1.1/xssh_0.1.1-1_all.deb
+$ sudo dpkg -i xssh_0.1.1-1_all.deb
 ```
 
 ## Config file format.
