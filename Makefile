@@ -22,6 +22,7 @@ uninstall:
 xssh.build.sh: xssh.sh
 	cat $^ \
 		| sed -E "s#^(DEFAULT_CONFIG=)(.*)#\1\"$(SHAREDIR)/config.json\"#" > $@
+	chmod 755 $@
 
 deb: xssh.build.sh
 	export SCRIPT_NAME=$^ \
