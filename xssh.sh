@@ -118,7 +118,7 @@ cmd_connect() {
 	# If so we parsed the json correctly. if not error.
 	local config=$(jq "." "${CONFIG_FILE}" 2>&1)
 	if [[ ! "${config}" =~ ^\{.* ]]; then
-		err "Failed to parse config '$conf'"
+		err "Failed to parse config '$config'"
 	fi
 
 	local ident=$(echo $config | jq -M -r ".keys.${KEY}")
