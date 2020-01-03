@@ -1,3 +1,6 @@
+# NOTICE
+This project is discontinued, see: https://github.com/moul/assh
+
 # xssh (eXtreme Secure Shell)
 
 This project contains a simple but powerful bash script that
